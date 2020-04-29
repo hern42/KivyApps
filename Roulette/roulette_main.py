@@ -1,5 +1,7 @@
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 from random import randrange
 
@@ -53,6 +55,7 @@ class RouletteGame(GridLayout):
         global montant_cagnotte
         if montant_cagnotte <= 0:
             self.display1.text = 'Perdu... Vous êtes ruiné.'
+            kv.current = 'gameover'
         else:
             # on récupère la bille courante...
             bille = roulette()
@@ -73,22 +76,41 @@ class RouletteGame(GridLayout):
                 gain = -1 * montant_mise
             elif pari_joueur in resultat_roulette:
                 gain = calcul_gain(montant_mise, pari_joueur)
-                self.display1.text = resultat_string + '\nGagné ! ' + str(gain) + ' boulles.'
+                self.display1.text = resultat_string + '\nGagné ! ' + str(gain) + ' boules.'
             else:
                 self.display1.text = resultat_string + '\nPerdu ! '
                 gain = -1 * montant_mise
 
             # mise à jour de la cagnotte
             montant_cagnotte += gain
-            self.display0.text = str(montant_cagnotte) + ' boulles.'
+            self.display0.text = str(montant_cagnotte) + ' boules.'
 
             # remise à zéro de la case mise...
             self.display2.text = ''
 
 
+class IntroScreen(Screen):
+    pass
+
+
+class GameScreen(Screen):
+    pass
+
+
+class OverScreen(Screen):
+    pass
+
+
+class ScreenManagement(ScreenManager):
+    pass
+
+
+kv = Builder.load_file('roulette_v2.kv')
+
+
 class RouletteApp(App):
     def build(self):
-        return RouletteGame()
+        return kv
 
 
 if __name__ == '__main__':
