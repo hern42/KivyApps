@@ -8,12 +8,6 @@ liste_choix = ['pair', 'impair', 'noir', 'rouge', 'passe', 'manque', 'nombre']
 liste_nombre = [i for i in range(1, 37)]
 
 
-# définition des couleurs
-# rouge = [1,3,5,7,9,1,14,16,18,19,21,23,25,27,30,32,34,36]
-# noir correspond au complémentaire à 36
-# manque correspond aux nombres entre 1 à 18, passe de 19 à 36
-# le 0 est la banque.
-
 def check_couleur(bille):
     rouge = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
     if bille in rouge:
