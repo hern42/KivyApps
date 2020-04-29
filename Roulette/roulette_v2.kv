@@ -5,7 +5,6 @@ ScreenManagement:
 
 <IntroScreen>:
     name: 'intro'
-
     Button:
         text: 'Bienvenue dans le jeu de roulette...\nAppuyer n\'importe où.\nCagnotte de départ = 1000 boules.'
         on_release:
@@ -17,9 +16,10 @@ ScreenManagement:
 
 <OverScreen>:
     name: 'gameover'
-
     Button:
         text: 'Game Over !'
+        on_release:
+            app.root.current = 'intro'
 
 
 <NumberButton@Button>:
@@ -30,9 +30,9 @@ ScreenManagement:
 
 <RouletteGame>:
     id: Roulette
-    display0: cagnotte
-    display1: info
-    display2: mise
+    cagnotte: cagnotte
+    info: info
+    mise: mise
     rows: 7
     padding: 5
     spacing: 5
@@ -40,9 +40,10 @@ ScreenManagement:
     # where stuff is displayed
     BoxLayout:
         Label:
-            text: 'Cagnotte :'
+            text: 'cagnotte :'
         TextInput:
             id: cagnotte
+            text: '1000 boules'
             font_size: 20
             multiline: False
     BoxLayout:

@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.properties import ObjectProperty
 
 from random import randrange
 
@@ -51,10 +52,15 @@ def calcul_gain(mise, choix):
 
 
 class RouletteGame(GridLayout):
+    cagnotte = ObjectProperty(None)
+    info = ObjectProperty(None)
+    mise = ObjectProperty(None)
+
     def game(self, pari, mise):
         global montant_cagnotte
+
         if montant_cagnotte <= 0:
-            self.display1.text = 'Perdu... Vous êtes ruiné.'
+            self.info.text = 'Perdu... Vous êtes ruiné.'
             kv.current = 'gameover'
         else:
             # on récupère la bille courante...
@@ -72,21 +78,21 @@ class RouletteGame(GridLayout):
 
             # on teste si on a gagné
             if bille == 0:
-                self.display1.text = '0 ! La banque gagne...'
+                self.info.text = '0 ! La banque gagne...'
                 gain = -1 * montant_mise
             elif pari_joueur in resultat_roulette:
                 gain = calcul_gain(montant_mise, pari_joueur)
-                self.display1.text = resultat_string + '\nGagné ! ' + str(gain) + ' boules.'
+                self.info.text = resultat_string + '\nGagné ! ' + str(gain) + ' boules.'
             else:
-                self.display1.text = resultat_string + '\nPerdu ! '
+                self.info.text = resultat_string + '\nPerdu ! '
                 gain = -1 * montant_mise
 
             # mise à jour de la cagnotte
             montant_cagnotte += gain
-            self.display0.text = str(montant_cagnotte) + ' boules.'
+            self.cagnotte.text = str(montant_cagnotte) + ' boules.'
 
             # remise à zéro de la case mise...
-            self.display2.text = ''
+            self.mise.text = ''
 
 
 class IntroScreen(Screen):
