@@ -1,3 +1,27 @@
+ScreenManagement:
+    IntroScreen:
+    GameScreen:
+    OverScreen:
+
+<IntroScreen>:
+    name: 'intro'
+    Button:
+        text: 'Bienvenue dans le jeu de roulette...\nAppuyer n\'importe où.\nCagnotte de départ = 1000 boules.'
+        on_release:
+            app.root.current = 'game'
+
+<GameScreen>:
+    name: 'game'
+    RouletteGame
+
+<OverScreen>:
+    name: 'gameover'
+    Button:
+        text: 'Game Over !'
+        on_release:
+            app.root.current = 'intro'
+
+
 <NumberButton@Button>:
     background_color: [1,0,0,1] if self.text in ['1', '3', '5', '7', '9', '12', '14', '16', '18', '19', '21', '23','25', '27', '30', '32', '34', '36'] else [0,0,0,1]
     
@@ -6,9 +30,9 @@
 
 <RouletteGame>:
     id: Roulette
-    display0: cagnotte
-    display1: info
-    display2: mise
+    cagnotte: cagnotte
+    info: info
+    mise: mise
     rows: 7
     padding: 5
     spacing: 5
@@ -16,9 +40,10 @@
     # where stuff is displayed
     BoxLayout:
         Label:
-            text: 'Cagnotte :'
+            text: 'cagnotte :'
         TextInput:
             id: cagnotte
+            text: '1000 boules'
             font_size: 20
             multiline: False
     BoxLayout:
