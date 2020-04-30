@@ -16,10 +16,10 @@ ScreenManagement:
 
 <OverScreen>:
     name: 'gameover'
+    id: gameover
     Button:
         text: 'Game Over !'
-        on_release:
-            app.root.current = 'intro'
+        on_release: gameover.rematch()
 
 
 <NumberButton@Button>:
@@ -28,8 +28,11 @@ ScreenManagement:
 <BetButton@Button>:
     font_size: 20
 
+<GoButton@Button>:
+    font_size: 24
+
 <RouletteGame>:
-    id: Roulette
+    id: roulettegame
     cagnotte: cagnotte
     info: info
     mise: mise
@@ -185,9 +188,11 @@ ScreenManagement:
             on_press: info.text = self.text
         BetButton:
             text: 'Noir'
+            background_color: [0,0,0,1]
             on_press: info.text = self.text
         BetButton:
             text: 'Rouge'
+            background_color: [1,0,0,1]
             on_press: info.text = self.text
         BetButton:
             text: 'Pair'
@@ -205,8 +210,8 @@ ScreenManagement:
             id: mise
             font_size: 20
             multiline: False
-        Button:
+        GoButton:
             text: 'GO!'
-            on_press: Roulette.game(info.text, mise.text)
+            on_press: roulettegame.game(info.text, mise.text)
             
 

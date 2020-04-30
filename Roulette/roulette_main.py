@@ -59,40 +59,41 @@ class RouletteGame(GridLayout):
     def game(self, pari, mise):
         global montant_cagnotte
 
-        if montant_cagnotte <= 0:
-            self.info.text = 'Perdu... Vous êtes ruiné.'
-            kv.current = 'gameover'
+        # on récupère la bille courante...
+        bille = roulette()
+        couleur = check_couleur(bille)
+        passe_manque = check_manque_passe(bille)
+        parite = check_pair_impair(bille)
+        resultat_roulette = [str(bille), couleur, parite, passe_manque]
+        resultat_string = str(bille) + ' - ' + couleur.capitalize() + ' - ' + parite.capitalize() + ' - ' + \
+                          passe_manque.capitalize()
+
+        # on récupère ce que veut parier le joueur et sa mise
+        montant_mise = int(mise)
+        pari_joueur = pari.lower()
+
+        # on teste si on a gagné
+        if bille == 0:
+            self.info.text = '0 ! La banque gagne...'
+            gain = -1 * montant_mise
+        elif pari_joueur in resultat_roulette:
+            gain = calcul_gain(montant_mise, pari_joueur)
+            self.info.text = resultat_string + '\nGagné ! ' + str(gain) + ' boules.'
         else:
-            # on récupère la bille courante...
-            bille = roulette()
-            couleur = check_couleur(bille)
-            passe_manque = check_manque_passe(bille)
-            parite = check_pair_impair(bille)
-            resultat_roulette = [str(bille), couleur, parite, passe_manque]
-            resultat_string = str(bille) + ' - ' + couleur.capitalize() + ' - ' + parite.capitalize() + ' - ' + \
-                              passe_manque.capitalize()
+            self.info.text = resultat_string + '\nPerdu ! '
+            gain = -1 * montant_mise
 
-            # on récupère ce que veut parier le joueur et sa mise
-            montant_mise = int(mise)
-            pari_joueur = pari.lower()
-
-            # on teste si on a gagné
-            if bille == 0:
-                self.info.text = '0 ! La banque gagne...'
-                gain = -1 * montant_mise
-            elif pari_joueur in resultat_roulette:
-                gain = calcul_gain(montant_mise, pari_joueur)
-                self.info.text = resultat_string + '\nGagné ! ' + str(gain) + ' boules.'
-            else:
-                self.info.text = resultat_string + '\nPerdu ! '
-                gain = -1 * montant_mise
-
-            # mise à jour de la cagnotte
-            montant_cagnotte += gain
+        # mise à jour de la cagnotte
+        montant_cagnotte += gain
+        if montant_cagnotte > 0:
             self.cagnotte.text = str(montant_cagnotte) + ' boules.'
-
             # remise à zéro de la case mise...
             self.mise.text = ''
+        else:
+            self.cagnotte.text = '1000 boules.'
+            self.mise.text = ''
+            self.info.text = ''
+            kv.current = 'gameover'
 
 
 class IntroScreen(Screen):
@@ -104,7 +105,10 @@ class GameScreen(Screen):
 
 
 class OverScreen(Screen):
-    pass
+    def rematch(self):
+        global montant_cagnotte
+        montant_cagnotte = 1000
+        kv.current = 'intro'
 
 
 class ScreenManagement(ScreenManager):
