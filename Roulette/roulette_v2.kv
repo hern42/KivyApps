@@ -7,7 +7,7 @@ ScreenManagement:
     name: 'intro'
     Button:
         text: 'Bienvenue dans le jeu de roulette...\nAppuyer n\'importe où.\nCagnotte de départ = 1000 boules.'
-        on_release:
+        on_press:
             app.root.current = 'game'
 
 <GameScreen>:
@@ -17,9 +17,19 @@ ScreenManagement:
 <OverScreen>:
     name: 'gameover'
     id: gameover
-    Button:
-        text: 'Game Over !'
-        on_release: gameover.rematch()
+
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Game Over!\nVous êtes ruiné...'
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'Encore ?'
+                on_press: gameover.rematch()
+            Button:
+                text: 'Quitter'
+                on_press: app.stop()
 
 
 <NumberButton@Button>:

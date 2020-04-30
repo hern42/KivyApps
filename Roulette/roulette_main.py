@@ -95,6 +95,9 @@ class RouletteGame(GridLayout):
             self.info.text = ''
             kv.current = 'gameover'
 
+class GameOver(GridLayout):
+    pass
+
 
 class IntroScreen(Screen):
     pass
