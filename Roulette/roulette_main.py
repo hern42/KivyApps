@@ -59,6 +59,9 @@ class RouletteGame(GridLayout):
     def game(self, pari, mise):
         global montant_cagnotte
 
+        if mise == '':
+            mise = 0
+
         # on récupère la bille courante...
         bille = roulette()
         couleur = check_couleur(bille)
@@ -94,6 +97,7 @@ class RouletteGame(GridLayout):
             self.mise.text = ''
             self.info.text = ''
             kv.current = 'gameover'
+
 
 class GameOver(GridLayout):
     pass
